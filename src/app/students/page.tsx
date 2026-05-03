@@ -1,69 +1,69 @@
-"use client";
+import Link from "next/link";
 
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabaseClient";
-
-type Student = {
-  id: number;
-  full_name: string;
-  age: number;
-  class: string;
-};
-
-export default function StudentsPage() {
-  const [students, setStudents] = useState<Student[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const fetchStudents = async () => {
-      setLoading(true);
-
-      const { data, error } = await supabase
-        .from("students")
-        .select("*")
-        .order("id", { ascending: false });
-
-      if (error) {
-        setError(error.message);
-      } else {
-        setStudents(data || []);
-      }
-
-      setLoading(false);
-    };
-
-    fetchStudents();
-  }, []);
-
+export default function HomePage() {
   return (
-    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
-      <h1>📚 Students List</h1>
+    <div style={{ fontFamily: "sans-serif" }}>
+      
+      <h1 style={{ fontSize: "28px", fontWeight: "bold" }}>
+        📚 Smarter Schools Dashboard
+      </h1>
 
-      {loading && <p>Loading students...</p>}
+      <p style={{ marginTop: "10px", color: "#555" }}>
+        Welcome to your school management system.
+      </p>
 
-      {error && <p style={{ color: "red" }}>Error: {error}</p>}
+      {/* QUICK NAV CARDS */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gap: "15px",
+          marginTop: "30px",
+        }}
+      >
+        
+        <Link
+          href="/students"
+          style={{
+            padding: "20px",
+            border: "1px solid #ddd",
+            borderRadius: "10px",
+            textDecoration: "none",
+            color: "black",
+          }}
+        >
+          <h3>📚 Students</h3>
+          <p>Manage student records</p>
+        </Link>
 
-      {!loading && students.length === 0 && (
-        <p>No students found in database.</p>
-      )}
+        <Link
+          href="/fees"
+          style={{
+            padding: "20px",
+            border: "1px solid #ddd",
+            borderRadius: "10px",
+            textDecoration: "none",
+            color: "black",
+          }}
+        >
+          <h3>💰 Fees</h3>
+          <p>Track payments & balances</p>
+        </Link>
 
-      <div style={{ marginTop: "20px" }}>
-        {students.map((student) => (
-          <div
-            key={student.id}
-            style={{
-              padding: "10px",
-              marginBottom: "10px",
-              border: "1px solid #ddd",
-              borderRadius: "8px",
-            }}
-          >
-            <h3>{student.full_name}</h3>
-            <p>Age: {student.age}</p>
-            <p>Class: {student.class}</p>
-          </div>
-        ))}
+        <Link
+          href="/reports"
+          style={{
+            padding: "20px",
+            border: "1px solid #ddd",
+            borderRadius: "10px",
+            textDecoration: "none",
+            color: "black",
+          }}
+        >
+          <h3>📊 Reports</h3>
+          <p>View analytics & summaries</p>
+        </Link>
+
       </div>
     </div>
   );
