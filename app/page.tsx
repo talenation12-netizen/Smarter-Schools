@@ -29,7 +29,7 @@ export default function HomePage() {
             border: "1px solid #ddd",
             borderRadius: "10px",
             textDecoration: "none",
-            color: "black",
+            color: "white",
           }}
         >
           <h3>📚 Students</h3>
