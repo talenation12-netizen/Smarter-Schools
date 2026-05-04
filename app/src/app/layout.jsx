@@ -36,7 +36,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="h-screen w-72 bg-gray-900 text-white flex flex-col justify-between p-4">
+    <div className="h-screen w-72 bg-gray-600 text-white flex flex-col justify-between p-4">
       {/* TOP */}
       <div>
         <h1 className="text-xl font-bold mb-6">📚 Smarter Schools</h1>
