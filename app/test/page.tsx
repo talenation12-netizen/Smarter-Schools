@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "../src/lib/supabaseClient";
+import { createClient } from "@supabase/supabase-js";
 
 export default function TestPage() {
   const [data, setData] = useState<any>(null);
@@ -9,6 +9,11 @@ export default function TestPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+
     const testSupabase = async () => {
       setLoading(true);
 
@@ -19,10 +24,8 @@ export default function TestPage() {
 
       if (error) {
         setError(error.message);
-        console.error("Supabase Error:", error);
       } else {
         setData(data);
-        console.log("Supabase Data:", data);
       }
 
       setLoading(false);
@@ -32,31 +35,16 @@ export default function TestPage() {
   }, []);
 
   return (
-    <div style={{ padding: "20px", fontFamily: "sans-serif" }}>
+    <div style={{ padding: 20 }}>
       <h1>Supabase Test Page</h1>
 
-      {loading && <p>Loading data from Supabase...</p>}
+      {loading && <p>Loading...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {error && (
-        <p style={{ color: "red" }}>
-          ❌ Error: {error}
-        </p>
-      )}
-
-      {data && (
-        <div>
-          <h3>✅ Data received:</h3>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        </div>
-      )}
-
-      {!loading && !error && data?.length === 0 && (
-        <p>No students found in database.</p>
-      )}
+      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
     </div>
   );
 }
-
 
 
 
